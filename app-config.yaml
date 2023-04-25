@@ -47,6 +47,7 @@ backend:
     allow:
       - host: example.com
       - host: '*.mozilla.org'
+      - host: '*.blob.core.windows.net'
   # workingDirectory: /tmp # Use this to configure a working directory for the scaffolder, defaults to the OS temp-dir
 
 # See README.md in the proxy-backend plugin for information on the configuration format
@@ -203,6 +204,12 @@ integrations:
   #   apiBaseUrl: server.bitbucket.com
   #   username: ${BITBUCKET_SERVER_USERNAME}
   #   appPassword: ${BITBUCKET_SERVER_APP_PASSWORD}
+
+  ### Example how to add a azure blobstorage integration
+  azureBlobStorage:
+    - accountName: ${AZURE_BLOB_STORAGE_USERNAME}
+      secretAccessKey: "${AZURE_BLOB_STORAGE_SAS}"
+    
   azure:
     - host: dev.azure.com
       token: ${AZURE_TOKEN}
@@ -226,6 +233,15 @@ catalog:
         - System
         - Domain
         - Location
+  providers:
+    azureBlobStorage:
+      backstage123456789:
+        containerName: catalog
+        schedule: # optional; same options as in TaskScheduleDefinition
+          # supports cron, ISO duration, "human duration" as used in code
+          frequency: { minutes: 2 }
+          # supports ISO duration, "human duration" as used in code
+          timeout: { minutes: 1 }
 
   processors:
     ldapOrg:

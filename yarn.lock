@@ -5048,10 +5048,12 @@ __metadata:
   languageName: unknown
   linkType: soft
 
-"@backstage/plugin-catalog-backend-module-azure@workspace:plugins/catalog-backend-module-azure":
+"@backstage/plugin-catalog-backend-module-azure@workspace:^, @backstage/plugin-catalog-backend-module-azure@workspace:plugins/catalog-backend-module-azure":
   version: 0.0.0-use.local
   resolution: "@backstage/plugin-catalog-backend-module-azure@workspace:plugins/catalog-backend-module-azure"
   dependencies:
+    "@azure/identity": ^2.1.0
+    "@azure/storage-blob": ^12.5.0
     "@backstage/backend-common": "workspace:^"
     "@backstage/backend-plugin-api": "workspace:^"
     "@backstage/backend-tasks": "workspace:^"
@@ -23633,6 +23635,7 @@ __metadata:
     "@backstage/plugin-azure-sites-backend": "workspace:^"
     "@backstage/plugin-badges-backend": "workspace:^"
     "@backstage/plugin-catalog-backend": "workspace:^"
+    "@backstage/plugin-catalog-backend-module-azure": "workspace:^"
     "@backstage/plugin-catalog-node": "workspace:^"
     "@backstage/plugin-code-coverage-backend": "workspace:^"
     "@backstage/plugin-entity-feedback-backend": "workspace:^"

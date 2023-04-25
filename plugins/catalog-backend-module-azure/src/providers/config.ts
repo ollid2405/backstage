@@ -16,7 +16,7 @@
 
 import { readTaskScheduleDefinitionFromConfig } from '@backstage/backend-tasks';
 import { Config } from '@backstage/config';
-import { AzureDevOpsConfig } from './types';
+import { AzureDevOpsConfig, AzureStorageConfig } from './types';
 
 export function readAzureDevOpsConfigs(config: Config): AzureDevOpsConfig[] {
   const configs: AzureDevOpsConfig[] = [];
@@ -34,6 +34,45 @@ export function readAzureDevOpsConfigs(config: Config): AzureDevOpsConfig[] {
   }
 
   return configs;
+}
+
+export function readAzureStorageConfigs(config: Config): AzureStorageConfig[] {
+  const configs: AzureStorageConfig[] = [];
+
+  const providerStorageConfigs = config.getOptionalConfig(
+    'catalog.providers.azureBlobStorage',
+  );
+  if (!providerStorageConfigs) {
+    return configs;
+  }
+
+  for (const accountName of providerStorageConfigs.keys()) {
+    configs.push(
+      readAzureStorageConfig(
+        accountName,
+        providerStorageConfigs.getConfig(accountName),
+      ),
+    );
+  }
+
+  return configs;
+}
+
+function readAzureStorageConfig(
+  accountName: string,
+  config: Config,
+): AzureStorageConfig {
+  const containerName: string = config.getString('containerName');
+  const prefix = config.has('prefix') ? config.getString('prefix') : undefined;
+  const schedule = config.has('schedule')
+    ? readTaskScheduleDefinitionFromConfig(config.getConfig('schedule'))
+    : undefined;
+  return {
+    accountName,
+    containerName,
+    prefix,
+    schedule,
+  };
 }
 
 function readAzureDevOpsConfig(id: string, config: Config): AzureDevOpsConfig {

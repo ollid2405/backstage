@@ -21,4 +21,7 @@
  */
 
 export { AzureDevOpsDiscoveryProcessor } from './processors';
-export { AzureDevOpsEntityProvider } from './providers';
+export {
+  AzureDevOpsEntityProvider,
+  AzureBlobStorageEntityProvider,
+} from './providers';

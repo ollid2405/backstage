@@ -19,12 +19,20 @@ import { ScaffolderEntitiesProcessor } from '@backstage/plugin-scaffolder-backen
 import { Router } from 'express';
 import { PluginEnvironment } from '../types';
 import { DemoEventBasedEntityProvider } from './DemoEventBasedEntityProvider';
+import { AzureBlobStorageEntityProvider } from '@backstage/plugin-catalog-backend-module-azure';
 
 export default async function createPlugin(
   env: PluginEnvironment,
 ): Promise<Router> {
   const builder = await CatalogBuilder.create(env);
   builder.addProcessor(new ScaffolderEntitiesProcessor());
+
+  builder.addEntityProvider(
+    AzureBlobStorageEntityProvider.fromConfig(env.config, {
+      logger: env.logger,
+      scheduler: env.scheduler,
+    }),
+  );
 
   const demoProvider = new DemoEventBasedEntityProvider({
     logger: env.logger,
